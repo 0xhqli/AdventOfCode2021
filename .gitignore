@@ -77,3 +77,6 @@ typings/
 
 #puzzle text
 **/puzzle.txt
+**/**Input.txt
+**/*.txt
+*.class
