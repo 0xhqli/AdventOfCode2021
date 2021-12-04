@@ -16,7 +16,7 @@ class Day3{
             }
             Input.close();
             String[] resRates=getRates(data);
-            // System.out.println(Arrays.toString(resRates));
+            System.out.println(Arrays.toString(resRates));
             int gamma=Integer.parseInt(resRates[0],2);
             int epsilon=Integer.parseInt(resRates[1],2);
             int OxyRatings=Integer.parseInt(getRatings(data,true),2);
