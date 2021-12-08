@@ -67,7 +67,7 @@ function solve(a:Set<string>|null):Function{
             else newDecoded("5",el,sEl)
         }
     }
-    //free up unneed variables
+    //free up unneed variables for the garbage collector to deal with
     rosettaStone=null;
     a=null;
     topRight=null;
