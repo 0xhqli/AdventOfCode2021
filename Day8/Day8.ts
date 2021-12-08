@@ -67,10 +67,7 @@ function solve(a:Set<string>|null):Function{
             else newDecoded("5",el,sEl)
         }
     }
-    // console.log(a)
-    // console.log(babel)
-    // console.log(rosettaStone)
-    //free up unneed
+    //free up unneed variables
     rosettaStone=null;
     a=null;
     topRight=null;
