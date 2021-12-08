@@ -82,3 +82,4 @@ typings/
 *.class
 *.jar
 Day7/Day7
+*.json
