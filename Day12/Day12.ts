@@ -68,6 +68,7 @@ for(let line of input){
     caveDic[a].addConnection(caveDic[b])
 }
 
+//get answers
 let resP1=caveDic["start"].getPaths("end",[],true)
 console.log("P1: ",resP1.length)
 
