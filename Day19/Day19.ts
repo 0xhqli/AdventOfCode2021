@@ -29,7 +29,7 @@ const ALL_ROTATIONS: Record<string,string>[] = [
     {x: "-z", y: "-x", z: "-y"},
 ]
 
-const minMatches:number=3
+const minMatchesThreshold:number=3
 
 class Beacon{
     location:Record<string,number>;
@@ -49,7 +49,7 @@ class Beacon{
 }
 class Scanner{
     beacons:Beacon[]=[];
-    location:number[]=[0,0];
+    location:Record<string,number>={x:0,y:0,z:0};
     name:string;
     constructor(name:string){
         this.name=name;
@@ -71,9 +71,34 @@ class Scanner{
                             if(manhattenthis===manhattensc){
                                 let thisNormalized=this.beacons[thisx].normalize(this.beacons[thisi])
                                 let scNormalized=sc.beacons[scx].normalize(sc.beacons[sci])
-                                console.log(this.beacons[thisi],sc.beacons[sci])
-                                console.log("yes",thisNormalized,scNormalized)
-                                console.log(this.beacons[thisx].toString(),sc.beacons[scx].toString())
+                                let rotationSucesses:Record<string,string>|null=null
+                                for(let testRotation=0;testRotation<ALL_ROTATIONS.length;testRotation++){
+                                    let r=ALL_ROTATIONS[testRotation]
+                                    let rotatedPt=rotate(scNormalized,r)
+                                    if(thisNormalized.x===rotatedPt.x&&thisNormalized.y===rotatedPt.y&&thisNormalized.z===rotatedPt.z){
+                                        let toTestSc=sc.beacons.filter((_,idx)=>!(idx===scx||idx===sci)).map(x=>rotate(x.normalize(sc.beacons[sci]),r))
+                                        let toTestThis=this.beacons.filter((_,idx)=>!(idx===thisx||idx===thisi)).map(x=>x.normalize(this.beacons[thisi]))
+                                        console.log("----------------------------------------------")
+                                        console.log(this.beacons[thisi],sc.beacons[sci])
+                                        console.log("ref",thisi,sci,"comp:",scx)
+                                        console.log(toTestSc)
+                                        console.log(toTestThis)
+                                        console.log(r)
+                                        console.log(this.beacons[thisx].toString(),sc.beacons[scx].toString())
+                                        let matchCount=2;
+                                        for(let ScPt of toTestSc){
+                                            for(let ThPt of toTestThis){
+                                                if(ThPt.x===ScPt.x&&ThPt.y===ScPt.y&&ThPt.z===ScPt.z)matchCount++;
+                                            }
+                                        }
+                                        if(matchCount>=minMatchesThreshold){
+                                            console.log("Match Found")
+                                            rotationSucesses=r;
+                                            return;
+                                        }
+                                    }
+                                }
+                                console.log("Match failed")
                             }
                         }
                     }
@@ -81,6 +106,12 @@ class Scanner{
             }
         }
     }
+}
+function rotate(pt:Record<string,number>,rotation:Record<string,string>):Record<string,number>{
+    let x=pt[rotation['x'].slice(-1)]*(rotation['x'][0]==="-"?-1:1)
+    let y=pt[rotation['y'].slice(-1)]*(rotation['y'][0]==="-"?-1:1)
+    let z=pt[rotation['z'].slice(-1)]*(rotation['z'][0]==="-"?-1:1)
+    return {x,y,z}
 }
 
 let scanners:Scanner[]=[]
@@ -94,5 +125,4 @@ for(let s of input){
 // for(let sc of scanners){
 //     console.log(sc.toString())
 // }
-scanners[0].matchBeacons(scanners[0])
-console.log(ALL_ROTATIONS.length)
+scanners[0].matchBeacons(scanners[1])
