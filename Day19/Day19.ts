@@ -56,7 +56,6 @@ for(let swap of swaparroos){
     }
 }
 
-// console.log(ALL_ROTATIONS.length)
 
 const minMatchesThreshold:number=12
 let printLogs=false;
@@ -122,15 +121,6 @@ class Scanner{
                                     if(thisNormalized.x===rotatedPt.x&&thisNormalized.y===rotatedPt.y&&thisNormalized.z===rotatedPt.z){
                                         let toTestSc=sc.beacons.filter((_,idx)=>!(idx===scx||idx===sci)).map(x=>rotate(x.normalize(sc.beacons[sci]),r))
                                         let toTestThis=this.beacons.filter((_,idx)=>!(idx===thisx||idx===thisi)).map(x=>x.normalize(this.beacons[thisi]))
-                                        if(printLogs){
-                                            console.log("----------------------------------------------")
-                                            console.log(this.beacons[thisi],sc.beacons[sci])
-                                            console.log("ref",thisi,sci,"comp:",scx)
-                                            console.log(toTestSc)
-                                            console.log(toTestThis)
-                                            console.log(r)
-                                            console.log(this.beacons[thisx].toString(),sc.beacons[scx].toString())
-                                        }
                                         let matchCount=2;
                                         for(let ScPt of toTestSc){
                                             for(let ThPt of toTestThis){
@@ -138,7 +128,6 @@ class Scanner{
                                             }
                                         }
                                         if(matchCount>=minMatchesThreshold){
-                                            // console.log("Match Found")
                                             let refRotated=rotate(sc.beacons[sci].location,r)
                                             sc.location={
                                                 x:this.beacons[thisi].location.x-refRotated.x,
@@ -149,7 +138,6 @@ class Scanner{
                                             let setOfBeaconsInThis=new Set(this.beacons.map(x=>x.toString()))
                                             let newBeacons=sc.beacons.filter(x=>!setOfBeaconsInThis.has(x.toString()))
                                             this.beacons.push(...newBeacons)
-                                            // console.log(newBeacons)
                                             return true;
                                         }
                                     }
@@ -192,26 +180,15 @@ for(let s of input){
     unknown.push(scan)
 }
 unknown.shift();
-// console.log(unknown)
-// console.log(scanners)
 let res:boolean=false;
 while(unknown.length>0){
     let tryMatch:Scanner=unknown.shift()!;
     res=resScanner.matchBeacons(tryMatch)
-    // console.log(tryMatch.name,":",res)
     if(!res){
-        if(unknown.length===0){
-            console.log(tryMatch)
-        }
-        else{
-            unknown.push(tryMatch)
-        }
+        unknown.push(tryMatch)
     }
 }
 console.log("P1:",resScanner.beacons.length)
-// for(let sc of scanners){
-//     console.log(sc.toString())
-// }
 let l:number=0;
 for(let i=0;i<scanners.length;i++){
     for(let j=i+1;j<scanners.length;j++){
