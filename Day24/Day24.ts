@@ -29,7 +29,10 @@ function inp(a:string,input:number,state:ProgramState,decreasing:boolean){
         next=instructions[state.CIR++]
     }
     if(state.previousDigits.length===14){
-        if(state.registers["z"]===0){console.log("success:",state.previousDigits);process.exit(0)}
+        if(state.registers["z"]===0){
+            console.log("success:",state.previousDigits);
+            process.exit(0);
+        }
     }
     else if(next[0]==='inp'){
         if(decreasing){
