@@ -32,6 +32,7 @@ function inp(a:string,input:number,state:ProgramState,decreasing:boolean){
         if(state.registers["z"]===0){
             console.log("success:",state.previousDigits);
             process.exit(0);
+            // return;
         }
     }
     else if(next[0]==='inp'){
